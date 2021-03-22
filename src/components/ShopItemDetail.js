@@ -20,7 +20,7 @@ const ShopItemDetail = ({ products }) => {
             <h3>{product.name}</h3>
             <div className="item-detail">
                 <div className="img-container">
-                    <img src={`../images/`+product.image} alt={product.name} />
+                    <img src={`images/`+product.image} alt={product.name} />
                 </div>
                 <div>
                     <div className="detail">
