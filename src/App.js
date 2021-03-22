@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route, NavLink } from 'react-router-dom';
+import { HashRouter, Switch, Route, NavLink } from 'react-router-dom';
 import Home from './components/Home';
 import Shop from './components/Shop';
 import ShopCart from './components/ShopCart';
@@ -9,7 +9,7 @@ import products from './products';
 const App = () => {
     return (
         <CartProvider>
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <HashRouter basename='/'>
                 <div className="header">
                     <div className="container top">
                         <div className="logo">Shopping<b>Cart</b></div>
@@ -30,7 +30,7 @@ const App = () => {
                     Created by <a href="detail.html">Daniel Solomon</a>
                     </div>
                 </div>
-            </BrowserRouter>
+            </HashRouter>
         </CartProvider>
     );
 };
