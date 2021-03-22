@@ -9,7 +9,7 @@ import products from './products';
 const App = () => {
     return (
         <CartProvider>
-            <BrowserRouter>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <div className="header">
                     <div className="container top">
                         <div className="logo">Shopping<b>Cart</b></div>
