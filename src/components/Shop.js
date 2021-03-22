@@ -1,43 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import products from '../products';
+import { CartContext } from '../context/CartContext';
 import ShopAddToCart from './ShopAddToCartBtn';
 import ShopCartBtn from './ShopCartBtn';
 import ShopItemOptions from './ShopItemOptions';
 
-const Shop = () => {
-    const [cart, setCart] = useState([]);
-    const [cartAmount, setCartAmount] = useState(0);
+const Shop = ({ products }) => {
 
-    const addToCart = (id) => {
-        setCart(prevState => prevState.concat({ id: id, amount: 1 }));
-    };
+    const cart = useContext(CartContext)[0];
 
-    const productInCart = (id) => cart.some(p => p.id === id);
-
-    const addItem = (id) => {
-        setCart(prevState => prevState.map(product => {
-            if(product.id === id) product.amount += 1;
-            return product;
-        }));
-    };
-
-    const substractItem = (id) => {
-        setCart(prevState => prevState.map(product => {
-            if(product.id === id) product.amount -= 1;
-            return product;
-        }));
-    };
-
-    useEffect(() => {
-        let total = 0;
-        cart.forEach(p => total += p.amount);
-        setCartAmount(total);
-    }, [cart]);
+    // check if the product is in the cart
+    const productInCart = (id) => cart.products.some(p => p.id === id);
 
     return (
         <>
-            <ShopCartBtn cartAmount={cartAmount} />
+            <ShopCartBtn />
             <div className="shop-list">
                 {products.map(product => {
                     return (
@@ -45,22 +22,14 @@ const Shop = () => {
                             <Link to={'/shop/'+product.id}>
                                 <div className="item-content">
                                     <div className="item-image">
-                                        <img src={`images/${product.image}.png`} alt={product.name} />
+                                        <img src={`images/`+product.image} alt={product.name} />
                                     </div>
                                     <div className="item-name">{product.name}</div>
                                 </div>
                             </Link>
                             {!productInCart(product.id) ?
-                                <ShopAddToCart 
-                                    productId={product.id}
-                                    addToCart={addToCart} 
-                                /> :
-                                <ShopItemOptions 
-                                    productId={product.id}
-                                    cart={cart}
-                                    addItem={addItem}
-                                    substractItem={substractItem}
-                                />
+                                <ShopAddToCart productId={product.id} /> :
+                                <ShopItemOptions productId={product.id} />
                             }
                         </div>
                     );

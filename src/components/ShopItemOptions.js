@@ -1,20 +1,59 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "../context/CartContext";
 
-const ShopItemOptions = (props) => {
+const ShopItemOptions = ({ productId }) => {
 
-    const [product, setProduct] = useState({});
+    const [cart, setCart] = useContext(CartContext);
+
+    const addItem = (id) => {
+        setCart(prevState => {
+            return {
+                amount: prevState.amount + 1,
+                products: prevState.products.map(product => {
+                    if(product.id === id) product.amount += 1;
+                    return product;
+                }),
+            };
+        });
+    };
+
+    const substractItem = (id) => {
+        setCart(prevState => {
+            return {
+                amount: prevState.amount - 1,
+                products: prevState.products.map(product => {
+                    if(product.id === id) product.amount -= 1;
+                    return product;
+                }),
+            };
+        });
+    };
+
+    const [productAmount, setProductAmount] = useState(0);
 
     useEffect(() => {
-        props.cart.forEach(p => {
-            if(p.id === props.productId) setProduct(p);
+        cart.products.forEach(p => {
+            if(p.id === productId) {
+                if(p.amount > 0) {
+                    setProductAmount(p.amount);
+                } else {
+                    // if product amount 0 then remove from the cart
+                    setCart(prevState => {
+                        return {
+                            amount: prevState.amount,
+                            products: prevState.products.filter(product => product.id !== p.id),
+                        };
+                    });
+                }
+            }
         });
-    }, [props.cart, props.productId]);
+    }, [cart, productId, setCart]);
 
     return (
         <div className="item-options">
-            <div className="item-btn left" onClick={() => props.substractItem(product.id)}>-</div>
-            <div className="item-amount">{product.amount}</div>
-            <div className="item-btn right" onClick={() => props.addItem(product.id)}>+</div>
+            <div className="item-btn left" onClick={() => substractItem(productId)}>-</div>
+            <div className="item-amount">{productAmount}</div>
+            <div className="item-btn right" onClick={() => addItem(productId)}>+</div>
         </div>
     );
 };
