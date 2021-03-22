@@ -1,9 +1,9 @@
-const ShopItemDetail = (product) => {
+import ShopCartBtn from "./ShopCartBtn"
+
+const ShopItemDetail = (props) => {
     return (
         <>
-            <div className="shop-top">
-                <a className="btn margin-left" href="cart.html"><i className="bi bi-cart4"></i> Cart (0)</a>
-            </div>
+            <ShopCartBtn />
             ShopItemDetail
         </>
     );

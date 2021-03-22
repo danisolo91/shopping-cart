@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import products from '../products';
-import ShopAddToCart from './ShopAddToCart';
+import ShopAddToCart from './ShopAddToCartBtn';
+import ShopCartBtn from './ShopCartBtn';
 import ShopItemOptions from './ShopItemOptions';
 
 const Shop = () => {
@@ -36,9 +37,7 @@ const Shop = () => {
 
     return (
         <>
-            <div className="shop-top">
-                <a className="btn margin-left" href="cart.html"><i className="bi bi-cart4"></i> Cart ({cartAmount})</a>
-            </div>
+            <ShopCartBtn cartAmount={cartAmount} />
             <div className="shop-list">
                 {products.map(product => {
                     return (
