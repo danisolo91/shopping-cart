@@ -4,18 +4,7 @@ import ShopItemOptions from './ShopItemOptions';
 
 const ShopCart = ({ products }) => {
 
-    const [cart, setCart] = useContext(CartContext);
-
-    const removeProduct = (id) => {
-        let amount = 0;
-        cart.products.forEach(p => { if(p.id === id) amount = p.amount});
-        setCart(prevState => {
-            return {
-                amount: prevState.amount - amount,
-                products: prevState.products.filter(product => product.id !== id),
-            };
-        });
-    }
+    const cart = useContext(CartContext)[0];
 
     // store in cartProducts local state the entire product 
     // object from products array if it exists in the cart
@@ -23,10 +12,25 @@ const ShopCart = ({ products }) => {
     useEffect(() => {
         let items = [];
         cart.products.forEach(product => {
-            items = items.concat(products.filter(p => p.id === product.id)[0]);
+            products.forEach(p => {
+                if(p.id === product.id) {
+                    p.totalPrice = product.amount * p.price;
+                    items = items.concat(p);
+                }
+            });
         });
         setCartProducts(items);
     }, [cart, products, setCartProducts]);
+
+    // calculate the total cost when cartProducts updates
+    const [total, setTotal] = useState(0);
+    useEffect(() => {
+        if(cartProducts.length > 0) {
+            let total = 0;
+            cartProducts.forEach(p => total += p.totalPrice);
+            setTotal(total);
+        }
+    }, [cartProducts]);
 
     return (
         <>
@@ -37,17 +41,22 @@ const ShopCart = ({ products }) => {
                         {cartProducts.map(product => {
                             return (
                                 <div key={product.id} className="cart-item">
-                                    <div className="cart-item-name">{product.name}</div>
-                                    <ShopItemOptions productId={product.id} />
-                                    <div className="cart-item-delete" 
-                                        onClick={() => removeProduct(product.id)}>
-                                        <i className="bi bi-trash pointer"></i>
+                                    <div>
+                                        <div className="cart-item-name">{product.name}</div>
+                                        <div className="cart-item-options">
+                                            <ShopItemOptions product={product} />
+                                        </div>
                                     </div>
+                                    <div className="cart-item-price"><span>{product.totalPrice.toFixed(2)} €</span></div>
                                 </div>
                             );
                         })}
-                        <div className="btn pay-now"><i className="bi bi-credit-card"></i> Pay now!</div>
-                    </> :                    
+                        <div className="pay-total">
+                            
+                            <div className="btn pay-now"><i className="bi bi-credit-card"></i> Pay now!</div>
+                            <div className="total-price">{total.toFixed(2)} €</div>
+                        </div>
+                    </> : 
                     <p>The cart is empty!</p>
                 }
             </div>

@@ -1,29 +1,29 @@
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/CartContext";
 
-const ShopItemOptions = ({ productId }) => {
+const ShopItemOptions = ({ product }) => {
 
     const [cart, setCart] = useContext(CartContext);
 
-    const addItem = (id) => {
+    const addItem = (p) => {
         setCart(prevState => {
             return {
                 amount: prevState.amount + 1,
-                products: prevState.products.map(product => {
-                    if(product.id === id) product.amount += 1;
-                    return product;
+                products: prevState.products.map(prod => {
+                    if(prod.id === p.id) prod.amount += 1;
+                    return prod;
                 }),
             };
         });
     };
 
-    const substractItem = (id) => {
+    const substractItem = (p) => {
         setCart(prevState => {
             return {
                 amount: prevState.amount - 1,
-                products: prevState.products.map(product => {
-                    if(product.id === id) product.amount -= 1;
-                    return product;
+                products: prevState.products.map(prod => {
+                    if(prod.id === p.id) prod.amount -= 1;
+                    return prod;
                 }),
             };
         });
@@ -33,7 +33,7 @@ const ShopItemOptions = ({ productId }) => {
 
     useEffect(() => {
         cart.products.forEach(p => {
-            if(p.id === productId) {
+            if(p.id === product.id) {
                 if(p.amount > 0) {
                     setProductAmount(p.amount);
                 } else {
@@ -41,19 +41,23 @@ const ShopItemOptions = ({ productId }) => {
                     setCart(prevState => {
                         return {
                             amount: prevState.amount,
-                            products: prevState.products.filter(product => product.id !== p.id),
+                            products: prevState.products.filter(prod => prod.id !== p.id),
                         };
                     });
                 }
             }
         });
-    }, [cart, productId, setCart]);
+    }, [cart, product, setCart]);
 
     return (
         <div className="item-options">
-            <div className="item-btn left" onClick={() => substractItem(productId)}>-</div>
+            <div><div className="item-btn" onClick={() => substractItem(product)}>
+                <span>-</span>
+            </div></div>
             <div className="item-amount">{productAmount}</div>
-            <div className="item-btn right" onClick={() => addItem(productId)}>+</div>
+            <div><div className="item-btn" onClick={() => addItem(product)}>
+                <span>+</span>
+            </div></div>
         </div>
     );
 };

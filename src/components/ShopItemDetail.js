@@ -26,9 +26,10 @@ const ShopItemDetail = ({ products }) => {
                     <div className="detail">
                         <h4>Description</h4>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque cupiditate omnis aspernatur incidunt temporibus eius, odio quis, reprehenderit voluptas magnam velit nihil fuga nam, esse maiores consequuntur consequatur adipisci cum. <br /><br /> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque cupiditate omnis aspernatur incidunt temporibus eius, odio quis, reprehenderit voluptas magnam velit nihil fuga nam, esse maiores consequuntur consequatur adipisci cum.</p>
+                        <div className="item-price">{product.price.toFixed(2)}€</div>
                         {!productInCart(product.id) ?
-                            <ShopAddToCart productId={product.id} /> :
-                            <ShopItemOptions productId={product.id} />
+                            <ShopAddToCart product={product} /> :
+                            <ShopItemOptions product={product} />
                         }
                     </div>
                 </div>

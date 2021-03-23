@@ -27,7 +27,7 @@ const App = () => {
                         <Route path="/shop/:productId"><ShopItemDetail products={products} /></Route>
                     </Switch>
                     <div className="footer">
-                    Created by <a href="detail.html">Daniel Solomon</a>
+                    Created by <a href="https://github.com/danisolo91">Daniel Solomon</a>
                     </div>
                 </div>
             </HashRouter>

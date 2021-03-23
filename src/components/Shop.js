@@ -25,11 +25,12 @@ const Shop = ({ products }) => {
                                         <img src={`images/`+product.image} alt={product.name} />
                                     </div>
                                     <div className="item-name">{product.name}</div>
+                                    <div className="item-price">{product.price.toFixed(2)} €</div>
                                 </div>
                             </Link>
                             {!productInCart(product.id) ?
-                                <ShopAddToCart productId={product.id} /> :
-                                <ShopItemOptions productId={product.id} />
+                                <ShopAddToCart product={product} /> :
+                                <ShopItemOptions product={product} />
                             }
                         </div>
                     );
