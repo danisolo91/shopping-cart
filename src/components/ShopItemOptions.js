@@ -52,11 +52,11 @@ const ShopItemOptions = ({ product }) => {
     return (
         <div className="item-options">
             <div><div className="item-btn" onClick={() => substractItem(product)}>
-                <span>-</span>
+                <i className="bi bi-dash"></i>
             </div></div>
             <div className="item-amount">{productAmount}</div>
             <div><div className="item-btn" onClick={() => addItem(product)}>
-                <span>+</span>
+                <i className="bi bi-plus"></i>
             </div></div>
         </div>
     );

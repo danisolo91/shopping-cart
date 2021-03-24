@@ -8,7 +8,7 @@ import ShopCartBtn from "./ShopCartBtn"
 const ShopItemDetail = ({ products }) => {
 
     let { productId } = useParams(); // get productId from the URL
-    const product = useState(products.filter(p => p.id === productId)[0])[0];
+    const product = useState(products.find(p => p.id === productId))[0];
 
     const cart = useContext(CartContext)[0];
     // check if the product is in the cart

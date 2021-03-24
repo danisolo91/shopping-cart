@@ -26,9 +26,7 @@ const ShopCart = ({ products }) => {
     const [total, setTotal] = useState(0);
     useEffect(() => {
         if(cartProducts.length > 0) {
-            let total = 0;
-            cartProducts.forEach(p => total += p.totalPrice);
-            setTotal(total);
+            setTotal(cartProducts.reduce((total, p) => total += p.totalPrice, 0));
         }
     }, [cartProducts]);
 
